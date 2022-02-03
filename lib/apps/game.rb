@@ -24,7 +24,16 @@ class Game
   def launch
     puts "Game launched ;-)"
     
-    Show.draw_board(my_board)
+    while !my_board.is_full? && !my_board.is_there_a_winner?(my_length_to_win) do
+    
+      my_board.write_square_status("A1","X")
+
+      my_players.each do |current_player| 
+        Show.draw_board(30, my_board)
+        my_board.write_square_status(Show.get_move(30, my_board, current_player),current_player.token)
+      end
+    
+    end
 
     puts "End of game ;-)"
   end

@@ -19,7 +19,6 @@ class TicTacToe
     @my_game = Game.new(3,3,3,2)
     @my_game.launch
     Show.end_screen(30,my_game.get_winner)
-    Show.end_screen(30,nil)
   end
 
 end

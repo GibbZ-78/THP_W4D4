@@ -34,11 +34,11 @@ class Show
 
   # player_form - Display the dialog and prompts to create a new Player
   def self.player_form(nb_spacer,num_player)
+    spacer = " "*nb_spacer
     tmp_player_tab = ["",""]
     tmp_symbol_tab = Player.get_available_token
     tmp_token_line = ""
     tmp_length = 0
-    spacer = " "*nb_spacer
     tmp_symbol_tab.each do |symbol|
       tmp_token_line = tmp_token_line + symbol + " / "
     end
@@ -76,19 +76,44 @@ class Show
   end
 
 # draw_board - Display the game board with empty and occupied squares
-def self.draw_board(my_board)
+def self.draw_board(nb_spacer, my_board)
+  spacer = " "*nb_spacer
   tmp_key = ""
   tmp_alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
   tmp_alphabet = tmp_alphabet[0,my_board.board_columns]
+  puts
+  puts spacer+"  "+" A "+" "+" B "+" "+" C " # WARNING : Non-generic from this point on... Works only for a 3-column board
+  puts spacer+" "+@@a+@@f*11+@@b 
   for row in 1..my_board.board_rows do
+    print spacer+row.to_s+@@e
     for col in tmp_alphabet do
-      tmp_key = col.to_s+row.to_s
-      # print my_board.game_board[tmp_key]
-      print tmp_key+" - "
+      tmp_key = col+row.to_s
+      print " "+my_board.read_square_status(tmp_key)+" "+@@e
     end
     print "\n"
   end
-  
+  puts spacer+" "+@@d+@@f*11+@@c
+  puts
+end
+
+# get_move - Prompt the given Player for his / her move on the current Board
+def self.get_move(nb_spacer, a_board, a_player)
+  spacer = " "*nb_spacer
+  tmp_move = ""
+  puts
+  puts spacer+@@a+@@f*48+@@b
+  puts spacer+@@e+" "*48+@@e
+  puts spacer+@@e+"  OK, #{a_player.first_name}, where do you want to play?   "+@@e
+  puts spacer+@@e+" Enter the coordinates (ex. 'a1' or 'A1') below "+@@e
+  puts spacer+@@e+" "*48+@@e
+  puts spacer+@@g+@@f*48+@@h
+  while tmp_move.empty? || a_board.get_square(tmp_move).nil? || !a_board.get_square(tmp_move).is_empty? do
+    print spacer+@@e+"  > "
+    tmp_move = gets.chomp # Capturing the (column*row) coordinates where the Player want to play
+    tmp_move = tmp_move[0,2].upcase
+  end
+  puts spacer+@@d+@@f*48+@@c
+  return tmp_move
 end
 
 # end_screen - Display the game ending streamer

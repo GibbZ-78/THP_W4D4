@@ -8,10 +8,15 @@ require_relative '../views/show.rb'
 class Square
   attr_accessor :coordinates, :status
   
-  # initialize - 
+  # initialize - Creator of each game board square
   def initialize(my_coord, my_status)
     @coordinates = my_coord
     @status = my_status
+  end
+
+  # is_empty? - Returns 'true' if the status of the related Square is equal to " "(1 space)
+  def is_empty?
+    return self.status == " "
   end
 
 end
