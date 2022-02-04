@@ -8,7 +8,7 @@ require_relative '../views/show.rb'
 class Player
   attr_accessor :first_name, :token, :player_id
   @@token_in_use = []
-  @@token_available = ['x','o','+','§','$','£','€','*','@','&']
+  @@token_available = ['X','O','0','1','§','$','£','€','@','&']
   @@nb_of_players = 0
 
   # initialize - 

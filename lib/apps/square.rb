@@ -14,9 +14,9 @@ class Square
     @status = my_status
   end
 
-  # is_empty? - Returns 'true' if the status of the related Square is equal to " "(1 space)
+  # is_empty? - Returns 'true' if the status of the related Square is equal to " " (1 space)
   def is_empty?
-    return self.status == " "
+    return (self.status == " ")
   end
 
 end

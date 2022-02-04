@@ -68,7 +68,7 @@ class Show
     puts spacer+@@g+@@f*48+@@h
     while tmp_player_tab[1].empty? || !tmp_symbol_tab.include?(tmp_player_tab[1]) do
       print spacer+@@e+"  > "
-      tmp_player_tab[1] = gets.chomp # Getting the token of the player from user entry
+      tmp_player_tab[1] = gets.chomp.upcase # Getting the token of the player from user entry
     end
     puts spacer+@@d+@@f*48+@@c
     puts
@@ -79,11 +79,15 @@ class Show
 def self.draw_board(nb_spacer, my_board)
   spacer = " "*nb_spacer
   tmp_key = ""
+  tmp_line = ""
   tmp_alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
   tmp_alphabet = tmp_alphabet[0,my_board.board_columns]
+  for col in tmp_alphabet do
+    tmp_line += " "+col+"  "
+  end
   puts
-  puts spacer+"  "+" A "+" "+" B "+" "+" C " # WARNING : Non-generic from this point on... Works only for a 3-column board
-  puts spacer+" "+@@a+@@f*11+@@b 
+  puts spacer+"  "+tmp_line # WARNING : Non-generic from this point on... Works only for a 3-column board
+  puts spacer+" "+@@a+@@f*(tmp_line.length-1)+@@b 
   for row in 1..my_board.board_rows do
     print spacer+row.to_s+@@e
     for col in tmp_alphabet do
@@ -92,7 +96,7 @@ def self.draw_board(nb_spacer, my_board)
     end
     print "\n"
   end
-  puts spacer+" "+@@d+@@f*11+@@c
+  puts spacer+" "+@@d+@@f*(tmp_line.length-1)+@@c
   puts
 end
 
@@ -103,8 +107,9 @@ def self.get_move(nb_spacer, a_board, a_player)
   puts
   puts spacer+@@a+@@f*48+@@b
   puts spacer+@@e+" "*48+@@e
-  puts spacer+@@e+"  OK, #{a_player.first_name}, where do you want to play?   "+@@e
-  puts spacer+@@e+" Enter the coordinates (ex. 'a1' or 'A1') below "+@@e
+  puts spacer+@@e+" OK, #{a_player.first_name}, where do you want to play?"+(" "*(48-33-a_player.first_name.length))+@@e
+  puts spacer+@@e+" Enter the coordinates for your '"+a_player.token+"' below       "+@@e
+  puts spacer+@@e+" (ex. 'a1' or 'A1' is the top left-hand corner) "+@@e
   puts spacer+@@e+" "*48+@@e
   puts spacer+@@g+@@f*48+@@h
   while tmp_move.empty? || a_board.get_square(tmp_move).nil? || !a_board.get_square(tmp_move).is_empty? do
@@ -130,7 +135,7 @@ def self.end_screen(nb_spacer,winner)
       tmp_winner_line1 = (" "*tmp_length)+tmp_winner_line1+(" "*tmp_length)+" "
     end
     tmp_winner_line1 = spacer+@@e+tmp_winner_line1+@@e
-    tmp_winner_line2 = spacer+@@e+"    You litteraly destroyed your opponents...   "+@@e
+    tmp_winner_line2 = spacer+@@e+"  You litteraly destroyed your opponent(s)...   "+@@e
   else
     tmp_winner_line1 = spacer+@@e+"      How DISAPPOINTING to see NONE of you      "+@@e
     tmp_winner_line2 = spacer+@@e+"  was simply able to emerge from all this MIRE  "+@@e

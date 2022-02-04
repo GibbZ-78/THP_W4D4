@@ -8,7 +8,7 @@ require_relative '../views/show.rb'
 
 # Game class - Instantiate the overall game mechanic (players, board, rounds, win/lose tests...)
 class Game
-  attr_accessor :my_board, :my_players, :my_length_to_win
+  attr_accessor :my_board, :my_players, :my_length_to_win, :my_current_player
 
   # initialize - Constructor of the Game class instantiating the game board and 
   def initialize(nb_rows=3, nb_columns=3, line_size_to_win=3, nb_players=2)
@@ -17,36 +17,29 @@ class Game
     nb_players.times do
       @my_players.push(Player.new)
     end
+    @my_current_player = @my_players[0]
     @my_length_to_win = line_size_to_win
   end
 
   # launch - Start and manage the game logic
   def launch
-    puts "Game launched ;-)"
-    
-    while !my_board.is_full? && !my_board.is_there_a_winner?(my_length_to_win) do
-    
-      my_board.write_square_status("A1","X")
-
-      my_players.each do |current_player| 
+    while !my_board.is_full? && !my_board.we_have_a_winner?(my_length_to_win) do
+      my_players.each do |current_player|
+        self.my_current_player = current_player 
         Show.draw_board(30, my_board)
         my_board.write_square_status(Show.get_move(30, my_board, current_player),current_player.token)
+        if my_board.is_full? || my_board.we_have_a_winner?(my_length_to_win)
+          Show.draw_board(30, my_board)
+          break
+        end
       end
-    
     end
-
-    puts "End of game ;-)"
+    if my_board.we_have_a_winner?(my_length_to_win)
+      Show.end_screen(30,self.my_current_player)
+    else my_board.is_full?
+      Show.end_screen(30,nil)
+    end
   end
-
-  # get_winner - Return the Player who wins the game, once ended
-  def get_winner
-    
-    # TO BE UPDATED
-    return self.my_players[0]
-    # TO BE UPDATED
-
-  end
-
 
 end
 

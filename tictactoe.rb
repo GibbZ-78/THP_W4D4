@@ -18,12 +18,11 @@ class TicTacToe
     Show.splash_screen(30)
     @my_game = Game.new(3,3,3,2)
     @my_game.launch
-    Show.end_screen(30,my_game.get_winner)
   end
 
 end
 
 # Launch of the Tic Tac Toe game
-my_tictactoe = TicTacToe.new
+TicTacToe.new
 
 # tictactoe.rb - Coded with love & sweat by Jean-Baptiste VIDAL for THP Developer curriculum (Winter 2022)

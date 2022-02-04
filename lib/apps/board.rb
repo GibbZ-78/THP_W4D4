@@ -56,16 +56,38 @@ class Board
   def is_full?
     tmp_full = true
     self.game_board.each do |each_square|
-      tmp_full = tmp_full && !each_square.is_empty?
+      # tmp_full = tmp_full && !each_square.is_empty?
+      if each_square.is_empty?
+        tmp_full = false
+      end
     end
     return tmp_full
   end
 
-  # is_there_a_winner? - Test if the board contains any line of length 'length_to_victory'. Return 'true' is so, 'else' if not
-  def is_there_a_winner?(length_to_victory)
-    ### TO BE UPDATED ###
-    return false
-    ### TO BE UPDATED ###
+  # we_have_a_winner? - Test if the board contains any line of length 'length_to_victory'. Return 'true' is so, 'else' if not
+  def we_have_a_winner?(length_to_victory)
+    ### TO BE UPDATED BECAUSE NOT GENERIC ###
+    a1 = self.read_square_status("A1")
+    a2 = self.read_square_status("A2")
+    a3 = self.read_square_status("A3")
+    b1 = self.read_square_status("B1")
+    b2 = self.read_square_status("B2")
+    b3 = self.read_square_status("B3")
+    c1 = self.read_square_status("C1")
+    c2 = self.read_square_status("C2")
+    c3 = self.read_square_status("C3")
+    cols = Board.test3(a1,a2,a3) || Board.test3(b1,b2,b3) || Board.test3(c1,c2,c3)
+    rows = Board.test3(a1,b1,b3) || Board.test3(a2,b2,c2) || Board.test3(a2,b3,c3)
+    diags = Board.test3(a1,b2,c3) || Board.test3(a3,b2,c1)
+    return cols || rows || diags
+    ### TO BE UPDATED BECAUSE NOT GENERIC ###
+  end
+
+  private
+
+  # test3 - Return 'true' if all 3 parameters are equal to each other + are not empty (" ", 1 space)
+  def self.test3(x,y,z)
+    return x==y && x==z && x!=" "
   end
 
 end
